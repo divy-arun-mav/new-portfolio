@@ -1,11 +1,7 @@
 import OS from "./Pages/OS";
 
 function App() {
-  return (
-    <>
-      <OS/>
-    </>
-  )
+  return <OS/>
 }
 
 export default App;
