@@ -9,7 +9,7 @@ const LoadingScreen = ({ onLoadingComplete }: LoadingScreenProps) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       onLoadingComplete();
-    }, 5000);
+    }, 3000);
 
     return () => clearTimeout(timer);
   }, [onLoadingComplete]);

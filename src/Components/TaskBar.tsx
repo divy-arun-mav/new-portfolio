@@ -25,7 +25,7 @@ const TaskBar = () => {
     <div className="absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-b from-blue-400 to-blue-600 border-t-2 border-blue-800 shadow-lg flex items-center pr-1 gap-1">
       <button className="h-full bg-gradient-to-b from-green-400 to-green-600 hover:from-green-500 hover:to-green-700 rounded-r shadow-md flex items-center px-2 gap-1 transition-all active:shadow-inner">
         <img src={windowsIcon} alt="Start" className="w-5 h-5" />
-        <span className="text-white font-bold text-sm">Startt</span>
+        <span className="text-white font-bold text-sm">Start</span>
       </button>
       <div className="flex-1 flex items-center gap-1 overflow-x-auto scrollbar-hide">
         {windows.map((window) => (
