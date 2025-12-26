@@ -100,7 +100,6 @@ const WindowFrame = ({ windowData }: WindowFrameProps) => {
       >
         <div>{windowData.title}</div>
         <div className="window-controls flex items-center gap-1">
-          {/* Minimize Button */}
           <button
             onClick={(e) => {
               e.stopPropagation();
@@ -112,7 +111,6 @@ const WindowFrame = ({ windowData }: WindowFrameProps) => {
             <span className="text-white text-xs font-bold pb-2">_</span>
           </button>
           
-          {/* Maximize/Restore Button */}
           <button
             onClick={(e) => {
               e.stopPropagation();
@@ -128,7 +126,6 @@ const WindowFrame = ({ windowData }: WindowFrameProps) => {
             )}
           </button>
           
-          {/* Close Button */}
           <button
             onClick={(e) => {
               e.stopPropagation();
@@ -144,7 +141,7 @@ const WindowFrame = ({ windowData }: WindowFrameProps) => {
       <div className={`bg-gray-200 overflow-y-auto ${
         windowData.isMaximized ? 'h-full' : 'h-96'
       }`}>
-        <WindowContent title={windowData.title} />
+              <WindowContent title={windowData.title} windowData={windowData} />
       </div>
     </div>
   );

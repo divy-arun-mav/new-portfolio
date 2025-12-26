@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useWindows, type WindowData } from '../context/WindowContext';
 
 interface Cell {
     isMine: boolean;
@@ -7,7 +8,11 @@ interface Cell {
     neighborMines: number;
 }
 
-const Minesweeper = () => {
+interface MinesweeperProps {
+    windowData: WindowData;
+}
+
+const Minesweeper = ({ windowData }: MinesweeperProps) => {
     const ROWS = 9;
     const COLS = 9;
     const MINES = 10;
@@ -58,18 +63,35 @@ const Minesweeper = () => {
         return newGrid;
     };
 
-    const [grid, setGrid] = useState<Cell[][]>(createInitialGrid);
-    const [gameStatus, setGameStatus] = useState<'playing' | 'won' | 'lost'>('playing');
-    const [flagCount, setFlagCount] = useState(0);
-    const [timer, setTimer] = useState(0);
-    const [isTimerRunning, setIsTimerRunning] = useState(false);
+    const { updateWindowGameState } = useWindows();
+
+    const [grid, setGrid] = useState<Cell[][]>(() => {
+        if (windowData.gameState?.grid) return windowData.gameState.grid;
+        return createInitialGrid();
+    });
+    const [gameStatus, setGameStatus] = useState<'playing' | 'won' | 'lost'>(() =>
+        windowData.gameState?.gameStatus || 'playing'
+    );
+    const [flagCount, setFlagCount] = useState(() => windowData.gameState?.flagCount || 0);
+    const [timer, setTimer] = useState(() => windowData.gameState?.timer || 0);
+    const [isTimerRunning, setIsTimerRunning] = useState(() => windowData.gameState?.isTimerRunning || false);
     const [showMenu, setShowMenu] = useState(false);
+
+    useEffect(() => {
+        updateWindowGameState(windowData.id, {
+            grid,
+            gameStatus,
+            flagCount,
+            timer,
+            isTimerRunning,
+        });
+    }, [grid, gameStatus, flagCount, timer, isTimerRunning, windowData.id, updateWindowGameState]);
 
     useEffect(() => {
         let interval: number;
         if (isTimerRunning && gameStatus === 'playing') {
             interval = setInterval(() => {
-                setTimer(prev => Math.min(prev + 1, 999));
+                setTimer((prev: number) => Math.min(prev + 1, 999));
             }, 1000);
         }
         return () => clearInterval(interval);
@@ -155,7 +177,7 @@ const Minesweeper = () => {
         const newGrid = [...grid.map(r => [...r])];
         newGrid[row][col].isFlagged = !newGrid[row][col].isFlagged;
         setGrid(newGrid);
-        setFlagCount(prev => newGrid[row][col].isFlagged ? prev + 1 : prev - 1);
+        setFlagCount((prev: number) => newGrid[row][col].isFlagged ? prev + 1 : prev - 1);
     };
 
     const getCellContent = (cell: Cell) => {

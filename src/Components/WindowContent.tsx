@@ -1,10 +1,12 @@
 import Minesweeper from './Minesweeper';
+import type { WindowData } from '../context/WindowContext';
 
 interface WindowContentProps {
   title: string;
+    windowData: WindowData;
 }
 
-const WindowContent = ({ title }: WindowContentProps) => {
+const WindowContent = ({ title, windowData }: WindowContentProps) => {
   const renderContent = () => {
     switch (title) {
       case 'About Divy':
@@ -349,7 +351,7 @@ divymav5@gmail.com | +91 75067 55337`}
         );
 
       case 'Minesweeper':
-        return <Minesweeper />;
+            return <Minesweeper windowData={windowData} />;
 
       default:
         return (
