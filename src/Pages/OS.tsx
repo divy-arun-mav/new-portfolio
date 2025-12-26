@@ -23,7 +23,7 @@ const OSContent = () => {
                         <WindowsContainer />
                         <TaskBar />
                         <Toast
-                            toastMessage="For better experience, please view on a desktop/laptop with fullscreen."
+                            toastMessage="For better experience, please view on a desktop/laptop."
                             timeout={8000}
                         />
                     </div>
