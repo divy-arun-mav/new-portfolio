@@ -54,7 +54,7 @@
     }
 }
 
-/* Hide scrollbar for taskbar */
+
 .scrollbar-hide::-webkit-scrollbar {
     display: none;
 }
@@ -62,4 +62,36 @@
 .scrollbar-hide {
     -ms-overflow-style: none;
     scrollbar-width: none;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    to {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+}
+
+.animate-slideUp {
+    animation: slideUp 0.2s ease-out forwards;
+}
+
+.animate-slideDown {
+    animation: slideDown 0.2s ease-out forwards;
 }

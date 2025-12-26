@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import windowsIcon from "../assets/System-Windows-icon.png";
 import { useWindows } from '../context/WindowContext';
+import StartMenu from './StartMenu';
 
 const TaskBar = () => {
   const { windows, closeWindow, setActiveWindow, activeWindowId, toggleMinimize } = useWindows();
   const [time, setTime] = useState(new Date());
+  const [isStartMenuOpen, setIsStartMenuOpen] = useState(false);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -23,7 +25,15 @@ const TaskBar = () => {
 
   return (
     <div className="absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-b from-blue-400 to-blue-600 border-t-2 border-blue-800 shadow-lg flex items-center pr-1 gap-1">
-      <button className="h-full bg-gradient-to-b from-green-400 to-green-600 hover:from-green-500 hover:to-green-700 rounded-r shadow-md flex items-center px-2 gap-1 transition-all active:shadow-inner">
+      <StartMenu isOpen={isStartMenuOpen} onClose={() => setIsStartMenuOpen(false)} />
+
+      <button
+        onClick={() => setIsStartMenuOpen(!isStartMenuOpen)}
+        className={`h-full bg-gradient-to-b rounded-r shadow-md flex items-center px-2 gap-1 transition-all ${isStartMenuOpen
+          ? 'from-green-500 to-green-700 shadow-inner'
+          : 'from-green-400 to-green-600 hover:from-green-500 hover:to-green-700 active:shadow-inner'
+          }`}
+      >
         <img src={windowsIcon} alt="Start" className="w-5 h-5" />
         <span className="text-white font-bold text-sm">Start</span>
       </button>
