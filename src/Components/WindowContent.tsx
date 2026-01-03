@@ -14,15 +14,14 @@ const WindowContent = ({ title, windowData }: WindowContentProps) => {
   const { showToast } = useToast();
   const clickTimeoutRef = useRef<number | null>(null);
 
-  const handleResumeClick = () => {
+  const handleClick = ({windowName}: {windowName: string}) => {
     if (clickTimeoutRef.current) {
       clearTimeout(clickTimeoutRef.current);
       clickTimeoutRef.current = null;
-      openWindow("Resume");
+      openWindow(windowName);
     } else {
       clickTimeoutRef.current = setTimeout(() => {
         showToast('Please double-click to open the file.', 3000);
-
         clickTimeoutRef.current = null;
       }, 300);
     }
@@ -365,7 +364,7 @@ divymav5@gmail.com | +91 75067 55337`}
                 <p className="text-xs font-bold text-[#003399]">📄 Download My Resume</p>
                 <div
                   onDoubleClick={() => openWindow("Resume")}
-                  onClick={handleResumeClick}
+                  onClick={() => handleClick({windowName: "Resume"})}
                   className="text-xs text-[#0000EE] hover:text-[#551A8B] underline"
                   rel="noopener noreferrer">
                   Click here to view or download my resume
