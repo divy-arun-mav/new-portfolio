@@ -20,7 +20,7 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
     setTimeout(() => {
       setIsVisible(false);
       setTimeout(() => setToastMessage(null), 1000); 
-    }, duration);
+    }, duration+1000);
   };
 
   return (

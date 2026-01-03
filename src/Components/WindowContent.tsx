@@ -1,5 +1,7 @@
 import Minesweeper from './Minesweeper';
-import type { WindowData } from '../context/WindowContext';
+import { useWindows, type WindowData } from '../context/WindowContext';
+import { useToast } from '../context/ToastContext';
+import { useRef } from 'react';
 
 interface WindowContentProps {
   title: string;
@@ -7,6 +9,25 @@ interface WindowContentProps {
 }
 
 const WindowContent = ({ title, windowData }: WindowContentProps) => {
+
+  const { openWindow } = useWindows();
+  const { showToast } = useToast();
+  const clickTimeoutRef = useRef<number | null>(null);
+
+  const handleResumeClick = () => {
+    if (clickTimeoutRef.current) {
+      clearTimeout(clickTimeoutRef.current);
+      clickTimeoutRef.current = null;
+      openWindow("Resume");
+    } else {
+      clickTimeoutRef.current = setTimeout(() => {
+        showToast('Please double-click to open the file.', 3000);
+
+        clickTimeoutRef.current = null;
+      }, 300);
+    }
+  };
+
   const renderContent = () => {
     switch (title) {
       case 'About Divy':
@@ -342,16 +363,34 @@ divymav5@gmail.com | +91 75067 55337`}
               </div>
               <div className="p-2 border-2 border-[#316AC5] bg-[#EBF3FD]">
                 <p className="text-xs font-bold text-[#003399]">📄 Download My Resume</p>
-                <a href="https://drive.google.com/file/d/1BY7kogV-Fi7rpUcmm7xeyQeo41WYtZFv/view?usp=sharing" className="text-xs text-[#0000EE] hover:text-[#551A8B] underline" target="_blank" rel="noopener noreferrer">
+                <div
+                  onDoubleClick={() => openWindow("Resume")}
+                  onClick={handleResumeClick}
+                  className="text-xs text-[#0000EE] hover:text-[#551A8B] underline"
+                  rel="noopener noreferrer">
                   Click here to view or download my resume
-                </a>
+                </div>
               </div>
             </div>
           </div>
         );
 
       case 'Minesweeper':
-            return <Minesweeper windowData={windowData} />;
+        return <Minesweeper windowData={windowData} />;
+      
+      case 'Resume':
+        return (
+          <div className="bg-white h-full">
+            <iframe
+              src="https://drive.google.com/file/d/1BY7kogV-Fi7rpUcmm7xeyQeo41WYtZFv/preview"
+              title="Resume"
+              style={{
+                width: '100%',
+                height: '100%'
+              }}
+            ></iframe>
+          </div>
+        )
 
       default:
         return (
